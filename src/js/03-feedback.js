@@ -16,11 +16,12 @@ populateInput();
 function onFormSubmit(event) { 
 
     event.preventDefault();
-
-    console.log(formData);
-    event.currentTarget.reset();
     
-    localStorage.removeItem(STORAGE_KEY);
+    event.currentTarget.reset();    
+    
+    localStorage.removeItem(STORAGE_KEY);  
+    
+    console.log(formData);
 }
 
 
@@ -36,7 +37,7 @@ function populateInput() {
     const saveData = localStorage.getItem(STORAGE_KEY);
     const parseSaveData = JSON.parse(saveData);
 
-    if (parseSaveData) {        
+    if (saveData) {        
         inputEl.value = parseSaveData.email;
         textareaEl.value = parseSaveData.message;       
     };
