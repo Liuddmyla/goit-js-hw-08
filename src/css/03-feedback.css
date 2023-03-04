@@ -52,9 +52,6 @@ ul, li{
   padding: 5px 12px;
 }
 
-/* .calendar_icon{
-  display: block; 
-} */
 
 .data_selected{
   display: block;
@@ -88,18 +85,18 @@ ul, li{
 
 .calendar{
   width: 250px;
-  height: 250px;
+  height: 100%;
   background-color: #F8F8F8;
   box-shadow: 0px 10px 60px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
-  padding: 27px 16px 20px;
-
+  padding: 0 16px 20px;
+  z-index: 2;
 }
 
 .calendar_month_next {
   transform: rotate(90deg);
   margin-left: 8px;
-  margin-right: auto;
+  margin-right: auto; 
 }
 
 .calendar_year_next{
@@ -117,7 +114,7 @@ ul, li{
   justify-content: center;
 }
 
-.month, .year{
+.current_month, .current_year{
   font-family: 'Manrope';
   font-style: normal;
   font-weight: 500;
@@ -127,16 +124,14 @@ ul, li{
   font-feature-settings: 'case' on; */
   color: #000000;
 }
-.month{
+.current_month{
   margin-right: 5px;
 }
 
 .week_days{
   display: flex;
   gap: 17px;
-  margin-top: 13px;
   justify-content: space-around;
-
   font-family: 'Manrope';
   font-style: normal;
   font-weight: 400;
@@ -148,15 +143,41 @@ ul, li{
 }
 
 .days{
+  position: relative;
   display: flex;
-    gap: 17px;
-    margin-top: 14px;
-    justify-content: space-around;
-  
-    font-family: 'Manrope';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 1.5;
-    text-align: center;
+  list-style: none;
+  flex-wrap: wrap;
+  gap: 17px;
+  margin-top: 14px;
+  justify-content: space-around;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  color: #000000;
+  letter-spacing: 0.38px;
+}
+
+.days li{
+  width: calc(100% / 14);
+}
+
+.previous, .next{
+  color: #5F6775;
+}
+
+.visually-hidden {
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  border: 0;
+  padding: 0;
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  margin: -1px;
 }

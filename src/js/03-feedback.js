@@ -50,74 +50,107 @@
 // };
 
 // ----------------------------------------------
+const CalendarDates = require("calendar-dates");
+const calendarDates = new CalendarDates();
 
+const dataSelected = document.querySelector(".data_selected");
 const month = document.querySelector(".current_month");
 const year = document.querySelector(".current_year");
 const monthNext = document.querySelector(".calendar_month_next");
 const yearNext = document.querySelector(".calendar_year_next");
 const yearBack = document.querySelector(".calendar_year_back");
+const btnCalendarOpen = document.querySelector(".btn_calendar_open");
+const btnCalendarClose = document.querySelector(".btn_calendar_close");
+const days = document.querySelector(".days");
+const calendar = document.querySelector(".calendar");
+
 
 
 // -----вибір місяця і року-----------------------------------------
-let dates = new Date(); 
-currMonth = dates.getMonth();
-currYear = dates.getFullYear();
 
+let dates = new Date(); 
+let currMonth = dates.getMonth();
+let currYear = dates.getFullYear();
+
+
+dataSelected.textContent = `${addLeadingZero(dates.getDay() - 2)}/${addLeadingZero(dates.getMonth() + 1)}/${dates.getFullYear()}`;
 year.innerText = currYear;
  
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 month.innerText = months[currMonth];
 
+
 monthNext.addEventListener("click", onNextMonth);
 yearNext.addEventListener("click", onNextYear);
 yearBack.addEventListener("click", onBackYear);
 
-function onNextMonth() {
-   
+
+function onNextMonth() {   
+    
     if (currMonth === 11) {
         currMonth = 0;
         month.innerText = months[currMonth]; 
-        index = 0;
-        console.log(index);
+            
     } else {
         currMonth += 1;
-        month.innerText = months[currMonth];
-        index += 1;
-         console.log(index);
-    }  
+        month.innerText = months[currMonth];       
+    }     
 }
 
-function onNextYear() {
+function onNextYear() {   
     currYear += 1;
-    year.innerText = currYear;
+    year.innerText = currYear;  
 }
 
 function onBackYear() {
-     currYear -= 1;
+    currYear -= 1;
     year.innerText = currYear;
 }
 
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
+};
 
-// ----------------------------------------------
-const CalendarDates = require("calendar-dates");
-const calendarDates = new CalendarDates();
+// --------рендер днів--------------------------------------
 
-let index = months.indexOf(`${month.textContent}`);
-const monthValue = Number(index);
-const yearValue = Number(year.textContent);
-
-console.log(monthValue, yearValue);
-
-
-
-const log = console.log;
-const data = new Date(yearValue, monthValue);
+const data = new Date(currYear, currMonth);
 
 mainAsync = async () => {
+    
     const mayDates = await calendarDates.getDates(data);
-//   const mayMatrix = await calendarDates.getMatrix(may2018);
-  log(`May, 2018 Dates`, mayDates);
-//   log(`May, 2018 Matrix`, mayMatrix);
+    console.log(mayDates);
+
+    createMarkup(mayDates);
+    
 };
 mainAsync();
+
+function createMarkup(mayDates) {
+   
+    const markup = mayDates.map(({ date, type }) => {
+        return `<li class="${type}">${date}</li>`;
+    }).join('');
+
+    days.innerHTML = markup;
+}
+
+// ---------відкриття календаря---------
+
+btnCalendarOpen.addEventListener("click", onOpenCalendar);
+
+function onOpenCalendar() {
+    calendar.classList.toggle('visually-hidden');
+   
+    btnCalendarClose.style.display = "block";
+    btnCalendarOpen.style.display = "none";
+}
+
+btnCalendarClose.addEventListener("click", onCloseCalendar);
+
+function onCloseCalendar() {
+    calendar.classList.toggle('visually-hidden');
+   
+    btnCalendarClose.style.display = "none";
+    btnCalendarOpen.style.display = "block";
+}
