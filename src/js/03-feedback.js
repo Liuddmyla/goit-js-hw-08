@@ -71,14 +71,16 @@ const calendar = document.querySelector(".calendar");
 let dates = new Date(); 
 let currMonth = dates.getMonth();
 let currYear = dates.getFullYear();
+let currDate = dates.getDate();
 
 
-dataSelected.textContent = `${addLeadingZero(dates.getDay())}/${addLeadingZero(dates.getMonth() + 1)}/${dates.getFullYear()}`;
-year.innerText = currYear;
- 
+dataSelected.textContent = `${addLeadingZero(currDate)}/${addLeadingZero(currMonth + 1)}/${currYear}`;
+
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 month.innerText = months[currMonth];
+year.innerText = currYear;
+ 
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
