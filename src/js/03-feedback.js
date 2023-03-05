@@ -73,13 +73,19 @@ let currMonth = dates.getMonth();
 let currYear = dates.getFullYear();
 
 
-dataSelected.textContent = `${addLeadingZero(dates.getDay() - 2)}/${addLeadingZero(dates.getMonth() + 1)}/${dates.getFullYear()}`;
+dataSelected.textContent = `${addLeadingZero(dates.getDay())}/${addLeadingZero(dates.getMonth() + 1)}/${dates.getFullYear()}`;
 year.innerText = currYear;
  
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 month.innerText = months[currMonth];
 
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
+};
+
+
+// -----вибір місяця і року-----------------------------------------
 
 monthNext.addEventListener("click", onNextMonth);
 yearNext.addEventListener("click", onNextYear);
@@ -95,29 +101,32 @@ function onNextMonth() {
     } else {
         currMonth += 1;
         month.innerText = months[currMonth];       
-    }     
+    } 
+    
+    mainAsync();
 }
 
 function onNextYear() {   
     currYear += 1;
     year.innerText = currYear;  
+
+    mainAsync();
 }
 
 function onBackYear() {
     currYear -= 1;
     year.innerText = currYear;
-}
 
-function addLeadingZero(value) {
-  return String(value).padStart(2, '0');
-};
+    mainAsync();
+}
 
 // --------рендер днів--------------------------------------
 
-const data = new Date(currYear, currMonth);
+
 
 mainAsync = async () => {
-    
+    const data = new Date(Number(year.textContent), months.indexOf(month.textContent));
+
     const mayDates = await calendarDates.getDates(data);
     console.log(mayDates);
 
@@ -135,7 +144,7 @@ function createMarkup(mayDates) {
     days.innerHTML = markup;
 }
 
-// ---------відкриття календаря---------
+// ---------відкриття і закриття календаря---------
 
 btnCalendarOpen.addEventListener("click", onOpenCalendar);
 
